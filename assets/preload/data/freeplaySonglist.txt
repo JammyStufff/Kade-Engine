@@ -17,3 +17,7 @@ Winter Horrorland:monster-christmas:5
 Senpai:senpai:6
 Roses:senpai:6
 Thorns:spirit:6
+Wander:dad:7
+Taco:dad:7
+Dead Fish Society:dad:7
+Copycat:dad:7
