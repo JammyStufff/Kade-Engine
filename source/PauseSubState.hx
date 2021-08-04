@@ -205,7 +205,7 @@ class PauseSubState extends MusicBeatSubstate
 			}
 		#end
 
-		if (controls.ACCEPT && !FlxG.keys.pressed.ALT)
+		if (controls.ACCEPT)
 		{
 			var daSelected:String = menuItems[curSelected];
 

@@ -185,7 +185,7 @@ class TitleState extends MusicBeatState
 		blackScreen = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		credGroup.add(blackScreen);
 
-		credTextShit = new Alphabet(0, 0, "ninjamuffin99\nPhantomArcade\nkawaisprite\nevilsk8er", true);
+		credTextShit = new Alphabet(0, 0, "VanillaSludge\nPhantomArcade\nkawaisprite\nevilsk8er", true);
 		credTextShit.screenCenter();
 
 		// credTextShit.alignment = CENTER;
@@ -393,11 +393,11 @@ class TitleState extends MusicBeatState
 			case 0:
 				deleteCoolText();
 			case 1:
-				createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
+				createCoolText(['vanillasludge', 'a chaotic pyromaniac', 'midnightsnoe', 'bluehairboy', 'Goldie', 'Jon Doe', 'It\'s Muffin Time', 'Joddi']);
 			// credTextShit.visible = true;
 			case 3:
 				addMoreText('present');
-			// credTextShit.text += '\npresent...';
+			// credTextShit.text += '\n and Jamilboi present...';
 			// credTextShit.addText();
 			case 4:
 				deleteCoolText();

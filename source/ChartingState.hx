@@ -243,8 +243,6 @@ class ChartingState extends MusicBeatState
                     var data = TimingStruct.AllTimings[currentIndex - 1];
                     data.endBeat = beat;
                     data.length = (data.endBeat - data.startBeat) / (data.bpm / 60);
-					var step = ((60 / data.bpm) * 1000) / 4;
-					TimingStruct.AllTimings[currentIndex].startStep = Math.floor(((data.endBeat / (data.bpm / 60)) * 1000) / step);
 					TimingStruct.AllTimings[currentIndex].startTime = data.startTime + data.length;
                 }
 
@@ -420,8 +418,6 @@ class ChartingState extends MusicBeatState
                     var data = TimingStruct.AllTimings[currentIndex - 1];
                     data.endBeat = beat;
                     data.length = (data.endBeat - data.startBeat) / (data.bpm / 60);
-					var step = ((60 / data.bpm) * 1000) / 4;
-					TimingStruct.AllTimings[currentIndex].startStep = Math.floor(((data.endBeat / (data.bpm / 60)) * 1000) / step);
 					TimingStruct.AllTimings[currentIndex].startTime = data.startTime + data.length;
                 }
 
@@ -615,8 +611,6 @@ class ChartingState extends MusicBeatState
 								var data = TimingStruct.AllTimings[currentIndex - 1];
 								data.endBeat = beat;
 								data.length = (data.endBeat - data.startBeat) / (data.bpm / 60);
-								var step = ((60 / data.bpm) * 1000) / 4;
-								TimingStruct.AllTimings[currentIndex].startStep = Math.floor(((data.endBeat / (data.bpm / 60)) * 1000) / step);
 								TimingStruct.AllTimings[currentIndex].startTime = data.startTime + data.length;
 							}
 
@@ -645,7 +639,7 @@ class ChartingState extends MusicBeatState
 			var eventPos = new FlxUIInputText(150,100,80,"");
 			var eventAdd = new FlxButton(95,155,"Add Event", function() {
 
-				var pog:Song.Event = new Song.Event("New Event " + HelperFunctions.truncateFloat(curDecimalBeat, 3),HelperFunctions.truncateFloat(curDecimalBeat, 3),_song.bpm,"BPM Change");
+				var pog:Song.Event = new Song.Event("New Event " + HelperFunctions.truncateFloat(curDecimalBeat, 3),HelperFunctions.truncateFloat(curDecimalBeat, 3),_song.bpm + "","BPM Change");
 				
 				trace("adding " + pog.name);
 
@@ -660,13 +654,13 @@ class ChartingState extends MusicBeatState
 
 				eventName.text = pog.name;
 				eventType.selectedLabel = pog.type;
-				eventValue.text = pog.value + "";
+				eventValue.text = pog.value;
 				eventPos.text = pog.position + "";
 				currentSelectedEventName = pog.name;
 				currentEventPosition = pog.position;
 
 				savedType = pog.type;
-				savedValue = pog.value + "";
+				savedValue = pog.value;
 
 				var listofnames = [];
 	
@@ -702,8 +696,6 @@ class ChartingState extends MusicBeatState
 								var data = TimingStruct.AllTimings[currentIndex - 1];
 								data.endBeat = beat;
 								data.length = (data.endBeat - data.startBeat) / (data.bpm / 60);
-								var step = ((60 / data.bpm) * 1000) / 4;
-								TimingStruct.AllTimings[currentIndex].startStep = Math.floor(((data.endBeat / (data.bpm / 60)) * 1000) / step);
 								TimingStruct.AllTimings[currentIndex].startTime = data.startTime + data.length;
 							}
 
@@ -746,13 +738,13 @@ class ChartingState extends MusicBeatState
 
 				eventName.text = firstEvent.name;
 				eventType.selectedLabel = firstEvent.type;
-				eventValue.text = firstEvent.value + "";
+				eventValue.text = firstEvent.value;
 				eventPos.text = firstEvent.position + "";
 				currentSelectedEventName = firstEvent.name;
 				currentEventPosition = firstEvent.position;
 
 				savedType = firstEvent.type;
-				savedValue = firstEvent.value + '';
+				savedValue = firstEvent.value;
 
 				var listofnames = [];
 	
@@ -788,8 +780,6 @@ class ChartingState extends MusicBeatState
 								var data = TimingStruct.AllTimings[currentIndex - 1];
 								data.endBeat = beat;
 								data.length = (data.endBeat - data.startBeat) / (data.bpm / 60);
-								var step = ((60 / data.bpm) * 1000) / 4;
-								TimingStruct.AllTimings[currentIndex].startStep = Math.floor(((data.endBeat / (data.bpm / 60)) * 1000) / step);
 								TimingStruct.AllTimings[currentIndex].startTime = data.startTime + data.length;
 							}
 
@@ -849,7 +839,7 @@ class ChartingState extends MusicBeatState
 				trace("bruh");
 				eventType.selectedLabel = firstEventObject.type;
 				trace("bruh");
-				eventValue.text = firstEventObject.value + "";
+				eventValue.text = firstEventObject.value;
 				trace("bruh");
 				currentSelectedEventName = firstEventObject.name;
 				trace("bruh");
@@ -869,7 +859,7 @@ class ChartingState extends MusicBeatState
 					trace('selecting ' + name + ' found: ' + event);
 	
 					eventName.text = event.name;
-					eventValue.text = event.value + "";
+					eventValue.text = event.value;
 					eventPos.text = event.position + "";
 					eventType.selectedLabel = event.type;
 					currentSelectedEventName = event.name;
@@ -1172,6 +1162,14 @@ class ChartingState extends MusicBeatState
 		});
 
 		var clearSectionButton:FlxButton = new FlxButton(10, 150, "Clear Section", clearSection);
+		var startSection:FlxButton = new FlxButton(10, 85, "Play Here", function() {
+			PlayState.SONG = _song;
+			FlxG.sound.music.stop();
+			if (!PlayState.isSM)
+			vocals.stop();
+			PlayState.startTime = lastUpdatedSection.startTime;
+			LoadingState.loadAndSwitchState(new PlayState());
+		});
 
 		var swapSection:FlxButton = new FlxButton(10, 170, "Swap Section", function()
 		{
@@ -1244,6 +1242,7 @@ class ChartingState extends MusicBeatState
 		tab_group_section.add(copyButton);
 		tab_group_section.add(clearSectionButton);
 		tab_group_section.add(swapSection);
+		tab_group_section.add(startSection);
 
 		UI_box.addGroup(tab_group_section);
 	}
@@ -1492,36 +1491,6 @@ class ChartingState extends MusicBeatState
 	{
 		updateHeads();
 
-		for(i in sectionRenderes)
-			{
-				var diff = i.y - strumLine.y;
-				if (diff < 4000 && diff >= -4000)
-				{
-					i.active = true;
-					i.visible = true;
-				}
-				else
-				{
-					i.active = false;
-					i.visible = false;
-				}
-			}
-	
-			for(i in curRenderedNotes)
-				{
-					var diff = i.y - strumLine.y;
-					if (diff < 4000 && diff >= -4000)
-					{
-						i.active = true;
-						i.visible = true;
-					}
-					else
-					{
-						i.active = false;
-						i.visible = false;
-					}
-				}	
-
 		var doInput = true;
 
 		for (i in Typeables)
@@ -1630,8 +1599,6 @@ class ChartingState extends MusicBeatState
 							var data = TimingStruct.AllTimings[currentIndex - 1];
 							data.endBeat = beat;
 							data.length = (data.endBeat - data.startBeat) / (data.bpm / 60);
-							var step = ((60 / data.bpm) * 1000) / 4;
-							TimingStruct.AllTimings[currentIndex].startStep = Math.floor(((data.endBeat / (data.bpm / 60)) * 1000) / step);
 							TimingStruct.AllTimings[currentIndex].startTime = data.startTime + data.length;
 						}
 
@@ -1725,8 +1692,6 @@ class ChartingState extends MusicBeatState
 		+ currentBPM
 		+ "\nCurBeat: " 
 		+ HelperFunctions.truncateFloat(curDecimalBeat,3)
-		+ "\nCurStep: "
-		+ curStep
 		+ "\nZoom: "
 		+ zoomFactor;
 

@@ -44,7 +44,7 @@ class LoadReplayState extends MusicBeatState
         #end
 		trace(controlsStrings);
 
-        controlsStrings.sort(sortByDate);
+        controlsStrings.sort(Reflect.compare);
 
         addWeek(['Bopeebo', 'Fresh', 'Dadbattle'], 1, ['dad']);
         addWeek(['Spookeez', 'South', 'Monster'], 2, ['spooky']);
@@ -104,13 +104,6 @@ class LoadReplayState extends MusicBeatState
 		changeSelection(0);
 
 		super.create();
-	}
-
-	function sortByDate(a:String, b:String) {
-		var aTime = Std.parseFloat(a.split("time")[1])/1000;
-		var bTime = Std.parseFloat(b.split("time")[1])/1000;
-
-		return Std.int(bTime - aTime); // Newest first
 	}
 
     public function getWeekNumbFromSong(songName:String):Int
